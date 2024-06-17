@@ -37,6 +37,14 @@ include("setup.php");
 
         $sql = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
         
+        // Make sure user does not exist.
+
+        $result = mysqli_query($con, "SELECT * FROM users WHERE username = '$username'");
+        if (mysqli_num_rows($result) > 0) {
+            echo output("Username already exists. Please try again.");
+            die();
+        }
+        
         if (!mysqli_query($con, $sql)) {
             echo output("Error executing SQL query: " . mysqli_error($con));
             die();
